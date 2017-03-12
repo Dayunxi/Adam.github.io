@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT, Adam, YT, Blog, SWU" />
+  <meta name="keywords" content="教程,Linux,服务器," />
 
 
 
@@ -93,15 +93,46 @@
 
 
 
-<meta name="description" content="在等一个人">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Adam's Web">
-<meta property="og:url" content="http://www.adamyt.com/index.html">
+<meta name="description" content="购买服务器现在腾讯有一个云+校园计划，高校生只需要每个月付一元钱就可以有一台自己的服务器了
+云+校园计划详情
+
+1）优惠的对象：所有全日制统招在读高校学生
+2）参与计划的条件：完成腾讯云平台的学生认证
+3）获得优惠的方法：完成学生认证，到云+校园页面抢购学生优惠代金券
+4）享受优惠的时长：从学生认证通过的时间，持续到当前在读学历的毕业时间
+详情点击
+
+
+选购服务器配置在选购的第四步时，会让你选择一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在腾讯云Centos环境下配置lnmp环境">
+<meta property="og:url" content="http://www.adamyt.com/blog/20170312-deploy-lnmp/index.html">
 <meta property="og:site_name" content="Adam's Web">
-<meta property="og:description" content="在等一个人">
+<meta property="og:description" content="购买服务器现在腾讯有一个云+校园计划，高校生只需要每个月付一元钱就可以有一台自己的服务器了
+云+校园计划详情
+
+1）优惠的对象：所有全日制统招在读高校学生
+2）参与计划的条件：完成腾讯云平台的学生认证
+3）获得优惠的方法：完成学生认证，到云+校园页面抢购学生优惠代金券
+4）享受优惠的时长：从学生认证通过的时间，持续到当前在读学历的毕业时间
+详情点击
+
+
+选购服务器配置在选购的第四步时，会让你选择一">
+<meta property="og:updated_time" content="2017-03-11T16:53:10.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Adam's Web">
-<meta name="twitter:description" content="在等一个人">
+<meta name="twitter:title" content="在腾讯云Centos环境下配置lnmp环境">
+<meta name="twitter:description" content="购买服务器现在腾讯有一个云+校园计划，高校生只需要每个月付一元钱就可以有一台自己的服务器了
+云+校园计划详情
+
+1）优惠的对象：所有全日制统招在读高校学生
+2）参与计划的条件：完成腾讯云平台的学生认证
+3）获得优惠的方法：完成学生认证，到云+校园页面抢购学生优惠代金券
+4）享受优惠的时长：从学生认证通过的时间，持续到当前在读学历的毕业时间
+详情点击
+
+
+选购服务器配置在选购的第四步时，会让你选择一">
 
 
 
@@ -129,13 +160,13 @@
 
 
 
-  <link rel="canonical" href="http://www.adamyt.com/"/>
+  <link rel="canonical" href="http://www.adamyt.com/blog/20170312-deploy-lnmp/"/>
 
 
 
 
 
-  <title> Adam's Web </title>
+  <title> 在腾讯云Centos环境下配置lnmp环境 | Adam's Web </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -170,9 +201,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -295,339 +324,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.adamyt.com/blog/20170312-wanshenji/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Adam">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/Adam.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Adam's Web">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/20170312-wanshenji/" itemprop="url">
-                  最近被万神纪洗脑了
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T11:53:15+08:00">
-                2017-03-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/blog/20170312-wanshenji/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="blog/20170312-wanshenji/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/blog/20170312-wanshenji/" class="leancloud_visitors" data-flag-title="最近被万神纪洗脑了">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          实在太美了！实在太美了！实在太美了！重要的事说三遍
-
-这个up主做的群像真的好棒！
-
-
-
-（和我草鞋合剪的第一个视频！神话部分是我，历史和现代部分是她。）悠悠五千载，铮铮中华骨。多想看看如果这样一部厚重而美丽的历史全部交由女性来书写，那该是怎样一番光景呢。
-*全员女子！全员女子！全员女子！不喜千万勿入！
-BGM：《万神纪》人声本家：av8542373 【肥皂菌】万神纪  正式版VC本家：av8506694  万神纪【星尘原创曲】感谢邪叫大大的授权！
-
-
-
-点这里去B站观看
-
-
-          
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/blog/20170312-wanshenji/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.adamyt.com/blog/20170312-hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Adam">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/Adam.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Adam's Web">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/20170312-hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T11:53:15+08:00">
-                2017-03-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/blog/20170312-hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="blog/20170312-hello-world/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/blog/20170312-hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick StartCreate a new post1$ hexo new "My New Post"
-More info: Writing
-Run server1$ hexo server
-More in
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/blog/20170312-hello-world/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
 
   
 
@@ -657,10 +356,7 @@ More in
             
             
               
-                
-                <a class="post-title-link" href="/blog/20170312-deploy-lnmp/" itemprop="url">
-                  在腾讯云Centos环境下配置lnmp环境
-                </a>
+                在腾讯云Centos环境下配置lnmp环境
               
             
           </h1>
@@ -754,67 +450,120 @@ More in
       
 
       
-        
-          
-          购买服务器现在腾讯有一个云+校园计划，高校生只需要每个月付一元钱就可以有一台自己的服务器了
-云+校园计划详情
+        <h1 id="购买服务器"><a href="#购买服务器" class="headerlink" title="购买服务器"></a>购买服务器</h1><p>现在腾讯有一个云+校园计划，高校生只需要每个月付一元钱就可以有一台自己的服务器了</p>
+<h2 id="云-校园计划详情"><a href="#云-校园计划详情" class="headerlink" title="云+校园计划详情"></a>云+校园计划详情</h2><blockquote>
+<ul>
+<li>1）优惠的对象：所有全日制统招在读高校学生</li>
+<li>2）参与计划的条件：完成腾讯云平台的学生认证</li>
+<li>3）获得优惠的方法：完成学生认证，到云+校园页面抢购学生优惠代金券</li>
+<li>4）享受优惠的时长：从学生认证通过的时间，持续到当前在读学历的毕业时间</li>
+<li><a href="http://bbs.qcloud.com/thread-21113-1-1.html" target="_blank" rel="external">详情点击</a></li>
+</ul>
+</blockquote>
+<h2 id="选购服务器配置"><a href="#选购服务器配置" class="headerlink" title="选购服务器配置"></a>选购服务器配置</h2><p>在选购的第四步时，会让你选择一个安全组</p>
+<blockquote>
+<ul>
+<li>默认安全组放通全部端口</li>
+<li>Linux安全组放通22端口</li>
+<li>Windows安全组放通3389端口</li>
+</ul>
+</blockquote>
+<p>我当时选了放通22端口(SSH)，结果导致后面遇到了很多麻烦QAQ，到了后面会提到。<br>对安全组这个概念不熟的同学还是先选放通全部端口吧</p>
+<hr>
+<h1 id="部署lnmp环境"><a href="#部署lnmp环境" class="headerlink" title="部署lnmp环境"></a>部署lnmp环境</h1><h2 id="连接服务器"><a href="#连接服务器" class="headerlink" title="连接服务器"></a>连接服务器</h2><blockquote>
+<ul>
+<li>腾讯云的云主机管理页面自带登录操作，点击登录输入账户密码既可</li>
+<li>下载一个putty，输入主机ip地址后选择22端口，连接方式选择SSH，点确认，输入账户密码登录</li>
+<li>其他连接软件，这个看个人喜好啦，不再多讲</li>
+</ul>
+</blockquote>
+<h2 id="安装lnmp-Linux-Nginx-MySQL-PHP"><a href="#安装lnmp-Linux-Nginx-MySQL-PHP" class="headerlink" title="安装lnmp(Linux/Nginx/MySQL/PHP)"></a>安装lnmp(Linux/Nginx/MySQL/PHP)</h2><p>这里我推荐使用<a href="https://lnmp.org/install.html" target="_blank" rel="external"><em>LNMP一键安装包</em></a><br>照着里面的步骤来就行了</p>
+<h2 id="安装FTP服务器"><a href="#安装FTP服务器" class="headerlink" title="安装FTP服务器"></a>安装FTP服务器</h2><p><a href="https://lnmp.org/faq/ftpserver.html" target="_blank" rel="external">LNMP下FTP服务器的安装和使用</a><br><strong>装完后可以先不急着创建账户，等添加虚拟主机时再创建</strong><br>连接FTP服务器可以用FileZilla</p>
+<h2 id="添加虚拟主机（网站）"><a href="#添加虚拟主机（网站）" class="headerlink" title="添加虚拟主机（网站）"></a>添加虚拟主机（网站）</h2><p><a href="https://lnmp.org/faq/lnmp-vhost-add-howto.html" target="_blank" rel="external">LNMP添加、删除虚拟主机及伪静态使用教程</a></p>
+<h2 id="可能遇到的问题"><a href="#可能遇到的问题" class="headerlink" title="可能遇到的问题"></a>可能遇到的问题</h2><h3 id="1-安装完lnmp后，在浏览器输入ip却没有响应页面"><a href="#1-安装完lnmp后，在浏览器输入ip却没有响应页面" class="headerlink" title="1.安装完lnmp后，在浏览器输入ip却没有响应页面"></a>1.安装完lnmp后，在浏览器输入ip却没有响应页面</h3><p>配置安全组时可能只开放了22端口，需要去新建一个安全组，开放80端口</p>
+<h3 id="2-无法连接到FTP服务器，或者能成功登录但无法列出目录"><a href="#2-无法连接到FTP服务器，或者能成功登录但无法列出目录" class="headerlink" title="2.无法连接到FTP服务器，或者能成功登录但无法列出目录"></a>2.无法连接到FTP服务器，或者能成功登录但无法列出目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">状态:	已登录</div><div class="line">状态:	读取“/”的目录列表...</div><div class="line">命令:	CWD /</div><div class="line">响应:	250 OK. Current directory is /</div><div class="line">命令:	TYPE I</div><div class="line">响应:	200 TYPE is now 8-bit binary</div><div class="line">命令:	PASV</div><div class="line">响应:	227 Entering Passive Mode (119,29,6,133,85,32)</div><div class="line">命令:	MLSD</div><div class="line">错误:	20 秒后无活动，连接超时</div><div class="line">错误:	读取目录列表失败</div></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li>若无法登录则检查一下安全组是否开放了21端口</li>
+<li>若能登录FTP但无法列出目录，开放20000-30000端口</li>
+</ul>
+</blockquote>
+<p>网上查了一下原因</p>
+<blockquote>
+<p>一、PORT（主动）方式的连接过程是：客户端向服务器的FTP端口（默认是21）发送连接请求，服务器接受连接，建立一条命令链路。当需要传送数据时，客户端在命令链路上用PORT命令告诉服务器：“我打开了xxxx端口，你过来连接我”。于是服务器从20端口向客户端的xxxx端口发送连接请求，建立一条数据链路来传送数据。<br>二、PASV（被动）方式的连接过程是：客户端向服务器的FTP端口（默认是21）发送连接请求，服务器接受连接，建立一条命令链路。当需要传送数据时，服务器在命令链路上用PASV命令告诉客户端：“我打开了xxxx端口，你过来连接我”。于是客户端向服务器的xxxx端口发送连接请求，建立一条数据链路来传送数据。 </p>
+</blockquote>
+<p>事实上选择开放所有端口就没这么多事了，但我有点强迫症OAO，总觉得全部开放有点不太好。<br>最开始我还以为是防火墙的问题，去设置iptables搞了半天，觉得明明没什么问题，为什么不管是进网站还是ftp就是不行呢？<br>最后才发现就算防火墙设置没问题，在腾讯云上没配好安全组设置也没卵用orz</p>
+<h3 id="3-删除虚拟主机时，root权限无法删除文件-user-ini"><a href="#3-删除虚拟主机时，root权限无法删除文件-user-ini" class="headerlink" title="3.删除虚拟主机时，root权限无法删除文件./user.ini"></a>3.删除虚拟主机时，root权限无法删除文件./user.ini</h3><p>需要执行：chattr -i /网站目录/.user.ini 后才能删除</p>
+<blockquote>
+<p>有时候你发现用root权限都不能修改某个文件，大部分原因是曾经用chattr命令锁定该文件了。chattr命令的作用很大，其中一些功能是由Linux内核版本来支持的，不过现在生产绝大部分跑的linux系统都是2.6以上内核了。通过chattr命令修改属性能够提高系统的安全性，但是它并不适合所有的目录。chattr命令不能保护/、/dev、/tmp、/var目录。lsattr命令是显示chattr命令设置的文件属性。</p>
+</blockquote>
+<hr>
+<h1 id="通过FTP向你的网站上传代码吧，Have-fun"><a href="#通过FTP向你的网站上传代码吧，Have-fun" class="headerlink" title="通过FTP向你的网站上传代码吧，Have fun!"></a>通过FTP向你的网站上传代码吧，Have fun!</h1><h2 id="P-S"><a href="#P-S" class="headerlink" title="P.S."></a>P.S.</h2><p>LNMP默认网站配置文件：/usr/local/nginx/conf/nginx.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">server</div><div class="line">    &#123;</div><div class="line">        listen 80 default_server;</div><div class="line">        #listen [::]:80 default_server ipv6only=on;</div><div class="line">        server_name www.lnmp.org;        #把这里改成你主机的域名</div><div class="line">        index index.html index.htm index.php;</div><div class="line">        root  /home/wwwroot/default;  	 #服务器的默认根目录改成你的网站目录</div><div class="line">		...</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
 
-1）优惠的对象：所有全日制统招在读高校学生
-2）参与计划的条件：完成腾讯云平台的学生认证
-3）获得优惠的方法：完成学生认证，到云+校园页面抢购学生优惠代金券
-4）享受优惠的时长：从学生认证通过的时间，持续到当前在读学历的毕业时间
-详情点击
-
-
-选购服务器配置在选购的第四步时，会让你选择一个安全组
-
-
-默认安全组放通全部端口
-Linux安全组放通22端口
-Windows安全组放通3389端口
-
-
-我当时选了放通22端口(SSH)，结果导致后面遇到了很多麻烦QAQ，到了后面会提到。对安全
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/blog/20170312-deploy-lnmp/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
       
     </div>
 
     <div>
       
+        
+
+      
     </div>
 
     <div>
+      
+        
+
       
     </div>
 
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/教程/" rel="tag"># 教程</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/服务器/" rel="tag"># 服务器</a>
+          
+        </div>
       
 
       
+        
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/20170312-hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -822,6 +571,14 @@ Windows安全组放通3389端口
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="blog/20170312-deploy-lnmp/"
+           data-title="在腾讯云Centos环境下配置lnmp环境" data-url="http://www.adamyt.com/blog/20170312-deploy-lnmp/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -841,8 +598,17 @@ Windows安全组放通3389端口
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/Adam.jpg"
@@ -943,6 +709,22 @@ Windows安全组放通3389端口
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#购买服务器"><span class="nav-number">1.</span> <span class="nav-text">购买服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#云-校园计划详情"><span class="nav-number">1.1.</span> <span class="nav-text">云+校园计划详情</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选购服务器配置"><span class="nav-number">1.2.</span> <span class="nav-text">选购服务器配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#部署lnmp环境"><span class="nav-number">2.</span> <span class="nav-text">部署lnmp环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#连接服务器"><span class="nav-number">2.1.</span> <span class="nav-text">连接服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装lnmp-Linux-Nginx-MySQL-PHP"><span class="nav-number">2.2.</span> <span class="nav-text">安装lnmp(Linux/Nginx/MySQL/PHP)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装FTP服务器"><span class="nav-number">2.3.</span> <span class="nav-text">安装FTP服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加虚拟主机（网站）"><span class="nav-number">2.4.</span> <span class="nav-text">添加虚拟主机（网站）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可能遇到的问题"><span class="nav-number">2.5.</span> <span class="nav-text">可能遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-安装完lnmp后，在浏览器输入ip却没有响应页面"><span class="nav-number">2.5.1.</span> <span class="nav-text">1.安装完lnmp后，在浏览器输入ip却没有响应页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-无法连接到FTP服务器，或者能成功登录但无法列出目录"><span class="nav-number">2.5.2.</span> <span class="nav-text">2.无法连接到FTP服务器，或者能成功登录但无法列出目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-删除虚拟主机时，root权限无法删除文件-user-ini"><span class="nav-number">2.5.3.</span> <span class="nav-text">3.删除虚拟主机时，root权限无法删除文件./user.ini</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通过FTP向你的网站上传代码吧，Have-fun"><span class="nav-number">3.</span> <span class="nav-text">通过FTP向你的网站上传代码吧，Have fun!</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#P-S"><span class="nav-number">3.1.</span> <span class="nav-text">P.S.</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -1036,6 +818,10 @@ Windows安全组放通3389端口
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
