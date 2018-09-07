@@ -1,0 +1,1038 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="教程,爬虫,MOOC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="说明首先MOOC中的 robots协议 并没有禁止爬虫爬取以Requests, Re库为主要技术路线MOOC并不是静态页面，而是ajax异步加载的，只能通过分析post请求去想办法获取文件
+
+背景有的时候想把某一门课的PPT下下来，但是MOOC却并没有提供一个全部下载的接口，而自己一个一个下载实在太麻烦，因此打算做一个自动爬取所有课件的爬虫。爬取视频也是类似的，不过虽然没明确说禁止，但个人感觉爬取">
+<meta property="og:type" content="article">
+<meta property="og:title" content="制作一个爬取中国大学MOOC课件的爬虫">
+<meta property="og:url" content="http://www.adamyt.com/blog/20170323-getMOOCpdf/index.html">
+<meta property="og:site_name" content="Adam's Blog">
+<meta property="og:description" content="说明首先MOOC中的 robots协议 并没有禁止爬虫爬取以Requests, Re库为主要技术路线MOOC并不是静态页面，而是ajax异步加载的，只能通过分析post请求去想办法获取文件
+
+背景有的时候想把某一门课的PPT下下来，但是MOOC却并没有提供一个全部下载的接口，而自己一个一个下载实在太麻烦，因此打算做一个自动爬取所有课件的爬虫。爬取视频也是类似的，不过虽然没明确说禁止，但个人感觉爬取">
+<meta property="og:updated_time" content="2017-04-13T05:50:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="制作一个爬取中国大学MOOC课件的爬虫">
+<meta name="twitter:description" content="说明首先MOOC中的 robots协议 并没有禁止爬虫爬取以Requests, Re库为主要技术路线MOOC并不是静态页面，而是ajax异步加载的，只能通过分析post请求去想办法获取文件
+
+背景有的时候想把某一门课的PPT下下来，但是MOOC却并没有提供一个全部下载的接口，而自己一个一个下载实在太麻烦，因此打算做一个自动爬取所有课件的爬虫。爬取视频也是类似的，不过虽然没明确说禁止，但个人感觉爬取">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.adamyt.com/blog/20170323-getMOOCpdf/"/>
+
+
+
+
+
+  <title> 制作一个爬取中国大学MOOC课件的爬虫 | Adam's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?98cbc6259626caf39be25b47e7dcbba6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Adam's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Private Blog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-essay">
+          <a href="/categories/随笔" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            随笔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-technology">
+          <a href="/categories/技术" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-pencil"></i> <br />
+            
+            技术
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="http://cloud.adamyt.com" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cloud"></i> <br />
+            
+            云盘
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.adamyt.com/blog/20170323-getMOOCpdf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Adam">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/Adam.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Adam's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                制作一个爬取中国大学MOOC课件的爬虫
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-23T20:06:04+08:00">
+                2017-03-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/blog/20170323-getMOOCpdf/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="blog/20170323-getMOOCpdf/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/blog/20170323-getMOOCpdf/" class="leancloud_visitors" data-flag-title="制作一个爬取中国大学MOOC课件的爬虫">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>首先MOOC中的 <a href="http://www.icourse163.org/robots.txt" target="_blank" rel="external">robots协议</a> 并没有禁止爬虫爬取<br>以Requests, Re库为主要技术路线<br>MOOC并不是静态页面，而是ajax异步加载的，只能通过分析post请求去想办法获取文件</p>
+<hr>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>有的时候想把某一门课的PPT下下来，但是MOOC却并没有提供一个全部下载的接口，而自己一个一个下载实在太麻烦，因此打算做一个自动爬取所有课件的爬虫。爬取视频也是类似的，不过虽然没明确说禁止，但个人感觉爬取视频可能有点不太好。。。</p>
+<hr>
+<h1 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h1><p>需要三个输入参数：<strong>学校ID</strong>，<strong>课程ID(tid)</strong>，<strong>保存路径</strong><br>以“Python网络爬虫与信息提取”这门课为例，课程地址如下<br><a href="http://www.icourse163.org/learn/BIT-1001870001?tid=1001962001#/learn/content" target="_blank" rel="external">http://www.icourse163.org/learn/BIT-1001870001?tid=1001962001#/learn/content</a><br>其中“BIT-1001870001”代表schoolId，“1001962001”代表termId<br>只需要将这两个字符串作为参数输入程序，即可获取所有的课件的pdf格式下载</p>
+<p><del>PS. 感觉自己的用户体验设计的不错，嘻嘻</del></p>
+<hr>
+<h1 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h1><h2 id="分析POST请求"><a href="#分析POST请求" class="headerlink" title="分析POST请求"></a>分析POST请求</h2><p>首先分析文档的下载链接是怎么来的，在浏览器开发人员工具下发现GET链接</p>
+<blockquote>
+<p><a href="http://www.icourse163.org/learn/BIT-1001870001?tid=1001962001" target="_blank" rel="external">http://www.icourse163.org/learn/BIT-1001870001?tid=1001962001</a></p>
+</blockquote>
+<p>得到的Document<strong>只有一个外层框架</strong>，并没有实际内容，因此就知道MOOC是异步加载的页面，不能通过普通的GET请求获取下载链接<br>然后点进任意一个文档查看页面，大概看了下所有的请求的响应值，然而没看出下载链接是在哪个请求。然后打开Fiddler，在视频与文档间切换界面时，通过Fiddler发现产生了几个POST请求，其中一个</p>
+<blockquote>
+<p><a href="http://www.icourse163.org/dwr/call/plaincall/CourseBean.getLessonUnitLearnVo.dwr" target="_blank" rel="external">http://www.icourse163.org/dwr/call/plaincall/CourseBean.getLessonUnitLearnVo.dwr</a></p>
+</blockquote>
+<p>进去后终于在里面发现了一个下载pdf的链接地址。</p>
+<p>然后开始研究post的参数格式（Python代码中有其具体格式形式），发现需要httpSessionId和另几个类似于文档id的参数，还有一个batchId。<br>batchId由一串数字组成，根据经验判断，看着很像unix时间戳，然后边查看了一下当前的unix时间戳，发现前面几位都是一致的，但是batchId多了3位，猜测是以毫秒为单位的时间戳。</p>
+<p>接着返回上一级界面（课程目录），在F12的网络中找到.dwr结尾的XHR文件，其中一个的响应文本比较大，有点可疑，拷贝至notepad查找之前看到的类似于id的参数，果然找到了，于是确定</p>
+<blockquote>
+<p><a href="http://www.icourse163.org/dwr/call/plaincall/CourseBean.getMocTermDto.dwr" target="_blank" rel="external">http://www.icourse163.org/dwr/call/plaincall/CourseBean.getMocTermDto.dwr</a></p>
+</blockquote>
+<p>是我们要找的POST请求链接，通过分析发现该请求返回了所有课件的信息（包括PPT,视频，富文本等），有几百行，每一行大概如下</p>
+<blockquote>
+<p>s12.anchorQuestions=null;s12.attachments=null;s12.chapterId=1002293023; s12.contentId=1004602244;s12.contentType=3;s12.gmtCreate=null;s12.gmtModified=null; s12.id=1003046433;s12.jsonContent=null;s12.lessonId=1002627077;s12.name=”\u5168 \u8BFE\u7A0B\u5185\u5BB9\u5BFC\u5B66\uFF08WS00\u5355\u5143\uFF09\u5B66\u4E60\u8D44\u6599”; s12.position=null;s12.resourceInfo=null;s12.termId=1001962001;s12.viewStatus=null;</p>
+</blockquote>
+<p>然后发现所有的文档都有一个共同特征，即他们的contentType均为3，然后在里面提取出了四个重要信息：<strong>contentType</strong>, <strong>contentId</strong>, <strong>id</strong>, <strong>name</strong><br>与之前的几个参数是对应的。而该post请求只需要termId(tid)。</p>
+<h3 id="POST请求结构"><a href="#POST请求结构" class="headerlink" title="POST请求结构"></a>POST请求结构</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">dataGetMocTermDto = &#123;<span class="string">'callCount'</span>:<span class="string">'1'</span>,</div><div class="line"><span class="string">'scriptSessionId'</span>:<span class="string">'$&#123;scriptSessionId&#125;190'</span>,</div><div class="line"><span class="string">'c0-scriptName'</span>:<span class="string">'CourseBean'</span>,</div><div class="line"><span class="string">'c0-methodName'</span>:<span class="string">'getMocTermDto'</span>,</div><div class="line"><span class="string">'c0-id'</span>:<span class="string">'0'</span>,</div><div class="line"><span class="string">'c0-param0'</span>:<span class="string">'number:1001962001'</span>,                        <span class="comment">#tid 课程学期Id</span></div><div class="line"><span class="string">'c0-param1'</span>:<span class="string">'number:1'</span>,</div><div class="line"><span class="string">'c0-param2'</span>:<span class="string">'boolean:true'</span>,</div><div class="line"><span class="string">'batchId'</span>:<span class="string">'1490456943066'</span>&#125;</div><div class="line"></div><div class="line">dataGetLessonUnitLearnVo = &#123;<span class="string">'callCount'</span>:<span class="string">'1'</span>,</div><div class="line"><span class="string">'scriptSessionId'</span>:<span class="string">'$&#123;scriptSessionId&#125;190'</span>,</div><div class="line"><span class="string">'c0-scriptName'</span>:<span class="string">'CourseBean'</span>,</div><div class="line"><span class="string">'c0-methodName'</span>:<span class="string">'getLessonUnitLearnVo'</span>,</div><div class="line"><span class="string">'c0-id'</span>:<span class="string">'0'</span>,</div><div class="line"><span class="string">'c0-param0'</span>:<span class="string">'number:805080'</span>,                            <span class="comment">#contentId</span></div><div class="line"><span class="string">'c0-param1'</span>:<span class="string">'number:3'</span>,                                 <span class="comment">#type=3代表文档  type=1代表视频</span></div><div class="line"><span class="string">'c0-param2'</span>:<span class="string">'number:0'</span>,</div><div class="line"><span class="string">'c0-param3'</span>:<span class="string">'number:1002834377'</span>,                        <span class="comment">#id</span></div><div class="line"><span class="string">'batchId'</span>:<span class="string">'1490456943066'</span>&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至此所有思路就理清楚了：</p>
+<blockquote>
+<ol>
+<li>构造headers (需要tid，schoolId, httpSessionId)</li>
+<li>构造POST(CourseBean.getMocTermDto.dwr)所需的参数 (需要tid, httpSessionId)</li>
+<li>通过requests.post()方法获取响应数据</li>
+<li>通过RE库正则匹配所有课件的信息(id, contentId, name) (contentType = 3)</li>
+<li>通过循环使用requests.post()从CourseBean.getLessonUnitLearnVo.dwr获取下载链接，并将文件以name命名下载至指定目录</li>
+</ol>
+</blockquote>
+<hr>
+<p>本来还想爬视频，但觉得爬取视频可能有点不太好，就算了。但过程是类似的，将contentType改成1，正则匹配稍微改下就能获取视频源的信息<br>然后在响应内容里可以看到 </p>
+<blockquote>
+<ul>
+<li>flvHdUrl</li>
+<li>flvSdUrl</li>
+<li>flvShdUrl</li>
+<li>mp4HdUrl</li>
+<li>mp4SdUrl</li>
+<li>mp4ShdUrl</li>
+</ul>
+</blockquote>
+<p>六种格式的下载链接，requests.get()保存下来即可（不过不建议这样做）。</p>
+<hr>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>后来又新增了搜索课程的功能，重新划分了模块，使得结构更加清晰，并且写成了交互式。调用搜索功能所需的url为</p>
+<blockquote>
+<p><a href="http://www.icourse163.org/dwr/call/plaincall/MocSearchBean.searchMocCourse.dwr" target="_blank" rel="external">http://www.icourse163.org/dwr/call/plaincall/MocSearchBean.searchMocCourse.dwr</a></p>
+</blockquote>
+<p>请求参数以及匹配返回数据规则如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">dataSearch = &#123;<span class="string">'callCount'</span>:<span class="string">'1'</span>,</div><div class="line"><span class="string">'scriptSessionId'</span>:<span class="string">'$&#123;scriptSessionId&#125;190'</span>,</div><div class="line"><span class="string">'c0-scriptName'</span>:<span class="string">'MocSearchBean'</span>,</div><div class="line"><span class="string">'c0-methodName'</span>:<span class="string">'searchMocCourse'</span>,</div><div class="line"><span class="string">'c0-id'</span>:<span class="string">'0'</span>,</div><div class="line"><span class="string">'c0-e1'</span>:<span class="string">'string:python'</span>,		<span class="comment">##查询关键词</span></div><div class="line"><span class="string">'c0-e2'</span>:<span class="string">'number:1'</span>,				<span class="comment">##页码</span></div><div class="line"><span class="string">'c0-e3'</span>:<span class="string">'boolean:true'</span>,			</div><div class="line"><span class="string">'c0-e4'</span>:<span class="string">'null:null'</span>,</div><div class="line"><span class="string">'c0-e5'</span>:<span class="string">'number:0'</span>,</div><div class="line"><span class="string">'c0-e6'</span>:<span class="string">'number:30'</span>,			<span class="comment">##状态码 - 0: 已结束; 10: 正在进行; 20: 即将开始; 30: 所有课程</span></div><div class="line"><span class="string">'c0-e7'</span>:<span class="string">'number:20'</span>,			<span class="comment">##每页记录数</span></div><div class="line"><span class="string">'c0-param0'</span>:<span class="string">'Object_Object:&#123;keyword:reference:c0-e1,pageIndex:reference:c0-e2,highlight:reference:c0-e3,\</span></div><div class="line">categoryId:reference:c0-e4,orderBy:reference:c0-e5,stats:reference:c0-e6,pageSize:reference:c0-e7&#125;',</div><div class="line"><span class="string">'batchId'</span>:<span class="string">'1490456943066'</span>&#125;		<span class="comment">##批处理时间，13位unix时间戳</span></div><div class="line"></div><div class="line">re_getInfo = <span class="string">r'.*highlightName="(.*?)";.*highlightTeacherNames="(.*?)";.*highlightUniversity="(.*?)";[\s\S]+?endTime=(\d*);[\s\S]+?\.id=(\d*);[\s\S]+?startTime=(\d*);'</span></div><div class="line"><span class="comment">##中间之所以用了[\s\S]是因为数据并不在同一行，而且由于decode()的原因，'\r\n'以及'\r\r\n'均无法匹配到所有数据，最后无奈用了全匹配</span></div><div class="line"><span class="comment">##注意到id即是我们上面所需的tid</span></div></pre></td></tr></table></figure></p>
+<p>不过在输出搜索结果时排版遇到了不小的问题，原因是中英文混合输出时所占的宽度不一致，而python对这块的优化并没做好，于是就自己写了一个格式化输出的函数。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">table = <span class="string">'&#123;:2&#125;\t&#123;:32&#125;\t&#123;:15&#125;\t&#123;:32&#125;\t&#123;:.20s&#125;'</span>  						<span class="comment">#最开始的格式化输出，效果不理想，总有对不齐的字段</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">zh_en</span><span class="params">(string, col = <span class="number">0</span>)</span>:</span>                                         <span class="comment">#新建了一个函数，用以严格输出col个宽度</span></div><div class="line">    <span class="keyword">if</span> col == <span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> string</div><div class="line">    string = str(string)</div><div class="line">    length = len(string)</div><div class="line">    lenChinese = <span class="number">0</span></div><div class="line">    lenEnglish = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range (length):</div><div class="line">        <span class="keyword">if</span> string[i] &gt;= <span class="string">u'\u4e00'</span> <span class="keyword">and</span> string[i] &lt;= <span class="string">u'\u9fa5'</span>:       <span class="comment">#中文</span></div><div class="line">            lenChinese += <span class="number">1</span></div><div class="line">        <span class="keyword">elif</span> string[i] &gt;= <span class="string">u'\uff00'</span> <span class="keyword">and</span> string[i] &lt;= <span class="string">u'\uffef'</span>:     <span class="comment">#全角标点</span></div><div class="line">            lenChinese += <span class="number">1</span></div><div class="line">        <span class="keyword">elif</span> string[i] &gt;= <span class="string">u'\u3000'</span> <span class="keyword">and</span> string[i] &lt;= <span class="string">u'\u303f'</span>:     <span class="comment">#CJK标点</span></div><div class="line">            lenChinese += <span class="number">1</span></div><div class="line">        <span class="keyword">elif</span> string[i] &gt;= <span class="string">u'\u2013'</span> <span class="keyword">and</span> string[i] &lt;= <span class="string">u'\u2026'</span>:     <span class="comment">#神奇的破折号等</span></div><div class="line">            lenChinese += <span class="number">1</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            lenEnglish += <span class="number">1</span></div><div class="line">    realLen = lenChinese*<span class="number">2</span> + lenEnglish</div><div class="line">    diff = col - realLen</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(diff):</div><div class="line">        string += <span class="string">' '</span></div><div class="line">    string = string[<span class="number">0</span>:col]</div><div class="line">    <span class="keyword">return</span> string + <span class="string">'\t'</span></div></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="编写程序"><a href="#编写程序" class="headerlink" title="编写程序"></a>编写程序</h1><p>写程序过程中遇到的最大问题是以ASCII码形式存在的Unicode码，如text=”\u5B66”，搞了半天才解决这个问题，如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">text.encode(<span class="string">'utf-8'</span>).decode(<span class="string">'unicode_escape'</span>)</div></pre></td></tr></table></figure></p>
+<p>直接给个第一版的代码，后面拓展的交互式的代码原理类似，就是多了一个搜索功能来直接获取tid，而不必用户前往网页端获取（其实通过这种方法可以把MOOC上的所有视频课件等资源全部下载下来）<br>P.S. headers如果不发送cookies的话就<strong>不用httpSessionId</strong>，同时里面的Referer也不是必须的，即其实<strong>不需要schoolId</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests, time, re, os</div><div class="line"></div><div class="line"><span class="comment">###以下三项用户自填。直接打开课程网页，在地址栏获取两个id</span></div><div class="line">schoolId = <span class="string">'BIT-1001870001'</span>  							<span class="comment">##学校id</span></div><div class="line">termId = <span class="string">'1001962001'</span> 									<span class="comment">##课程id</span></div><div class="line">saveDir = <span class="string">'F://MOOC/Python网络爬虫/'</span>  		        	<span class="comment">##保存目录</span></div><div class="line"></div><div class="line"></div><div class="line">Referer = <span class="string">'http://www.icourse163.org/learn/'</span> + schoolId + <span class="string">'?tid='</span> + termId</div><div class="line">scriptSessionId = <span class="string">'$&#123;scriptSessionId&#125;190'</span></div><div class="line">httpSessionId = <span class="string">'c885dc4a57f643c080021ffa63ccecc4'</span></div><div class="line">batchId = round(time.time()*<span class="number">1000</span>)                       <span class="comment">#毫秒级unix时间戳</span></div><div class="line"></div><div class="line">headers = &#123;<span class="string">'Host'</span>: <span class="string">'www.icourse163.org'</span>,</div><div class="line"><span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0'</span>,</div><div class="line"><span class="string">'Accept'</span>: <span class="string">'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'</span>,</div><div class="line"><span class="string">'Accept-Language'</span>: <span class="string">'zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3'</span>,</div><div class="line"><span class="string">'Accept-Encoding'</span>: <span class="string">'gzip, deflate'</span>,</div><div class="line"><span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span>,</div><div class="line"><span class="string">'Referer'</span>: Referer,</div><div class="line"><span class="string">'Connection'</span>: <span class="string">'keep-alive'</span>&#125;</div><div class="line"></div><div class="line">dataGetMocTermDto = &#123;<span class="string">'callCount'</span>:<span class="string">'1'</span>,</div><div class="line"><span class="string">'scriptSessionId'</span>:scriptSessionId,</div><div class="line"><span class="string">'httpSessionId'</span>:httpSessionId,</div><div class="line"><span class="string">'c0-scriptName'</span>:<span class="string">'CourseBean'</span>,</div><div class="line"><span class="string">'c0-methodName'</span>:<span class="string">'getMocTermDto'</span>,                        <span class="comment">#获取目录</span></div><div class="line"><span class="string">'c0-id'</span>:<span class="string">'0'</span>,</div><div class="line"><span class="string">'c0-param0'</span>:<span class="string">'number:'</span> + termId,	                        <span class="comment">#tid</span></div><div class="line"><span class="string">'c0-param1'</span>:<span class="string">'number:1'</span>,</div><div class="line"><span class="string">'c0-param2'</span>:<span class="string">'boolean:true'</span>,</div><div class="line"><span class="string">'batchId'</span>:batchId,&#125;</div><div class="line"></div><div class="line">dataGetLessonUnitLearnVo = &#123;<span class="string">'callCount'</span>:<span class="string">'1'</span>,</div><div class="line"><span class="string">'scriptSessionId'</span>:scriptSessionId,</div><div class="line"><span class="string">'httpSessionId'</span>:httpSessionId,</div><div class="line"><span class="string">'c0-scriptName'</span>:<span class="string">'CourseBean'</span>,</div><div class="line"><span class="string">'c0-methodName'</span>:<span class="string">'getLessonUnitLearnVo'</span>,</div><div class="line"><span class="string">'c0-id'</span>:<span class="string">'0'</span>,</div><div class="line"><span class="string">'c0-param0'</span>:<span class="string">'number:805080'</span>,                            <span class="comment">#contentId</span></div><div class="line"><span class="string">'c0-param1'</span>:<span class="string">'number:3'</span>,                                 <span class="comment">#type=3代表文档  type=1代表视频</span></div><div class="line"><span class="string">'c0-param2'</span>:<span class="string">'number:0'</span>,</div><div class="line"><span class="string">'c0-param3'</span>:<span class="string">'number:1002834377'</span>,                        <span class="comment">#id</span></div><div class="line"><span class="string">'batchId'</span>:batchId&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getMocTermDto</span><span class="params">()</span>:</span>                                    <span class="comment">#获取总体目录</span></div><div class="line">    urlGetMocTermDto = <span class="string">'http://www.icourse163.org/dwr/call/plaincall/CourseBean.getMocTermDto.dwr'</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        res = requests.post(urlGetMocTermDto, headers=headers, data=dataGetMocTermDto)</div><div class="line">        res.raise_for_status()</div><div class="line">        re_getInfo = <span class="string">u'anchorQuestions=.*contentId=(\d*);.*contentType=3;.*id=(\d*);.*name="(.*)";'</span></div><div class="line">        content = res.text.encode(<span class="string">'utf-8'</span>).decode(<span class="string">'unicode_escape'</span>)             <span class="comment">#原文本中的unicode字符串是以ASCII码形式存在的，所以需要重编码</span></div><div class="line">        infoList = re.findall(re_getInfo, content)</div><div class="line">        <span class="keyword">if</span> len(infoList) == <span class="number">0</span>:</div><div class="line">            <span class="keyword">if</span> content.find(<span class="string">'Session Error'</span>) != <span class="number">-1</span>:</div><div class="line">                print(<span class="string">'哟呵，session过期咯，再去获取一次吧'</span>)</div><div class="line">                <span class="keyword">return</span> <span class="number">-1</span></div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                <span class="keyword">raise</span></div><div class="line">    <span class="keyword">except</span>:</div><div class="line">        print(<span class="string">'哎呀，出了点问题，可能是id输入错误，也可能是老师并没有发布课件\n'</span>) <span class="comment">#比如电子科大的微积分三就没课件 惊了！还以为有BUG呢</span></div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span></div><div class="line">    <span class="keyword">return</span> infoList</div><div class="line">	</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getLessonUnitLearnVo</span><span class="params">(infoList)</span>:</span>                     <span class="comment">#获取该讲的文档地址</span></div><div class="line">    urlGetLessonUnitLearnVo = <span class="string">'http://www.icourse163.org/dwr/call/plaincall/CourseBean.getLessonUnitLearnVo.dwr'</span></div><div class="line">    re_pdfUrl = <span class="string">r'http://nos.netease.com/.*?\.pdf'</span>      <span class="comment">#匹配pdf下载链接</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(saveDir):</div><div class="line">        os.mkdir(saveDir)</div><div class="line">    count = <span class="number">1</span>                                           <span class="comment">#计数</span></div><div class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> infoList:</div><div class="line">        contendId = item[<span class="number">0</span>]</div><div class="line">        ID = item[<span class="number">1</span>]</div><div class="line">        name = item[<span class="number">2</span>]</div><div class="line">        <span class="keyword">if</span> os.path.exists(saveDir+name+<span class="string">'.pdf'</span>):         <span class="comment">#检查文件是否已下载过</span></div><div class="line">            print(name + <span class="string">' 已存在，跳过...\n'</span>)</div><div class="line">            <span class="keyword">continue</span></div><div class="line">        batchId = round(time.time()*<span class="number">1000</span>)               <span class="comment">#毫秒级unix时间戳</span></div><div class="line">        dataGetLessonUnitLearnVo[<span class="string">'c0-param0'</span>] = <span class="string">'number:'</span> + contendId</div><div class="line">        dataGetLessonUnitLearnVo[<span class="string">'c0-param3'</span>] = <span class="string">'number:'</span> + ID</div><div class="line">        dataGetLessonUnitLearnVo[<span class="string">'batchId'</span>] = batchId</div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            eachRes = requests.post(urlGetLessonUnitLearnVo, headers = headers, data = dataGetLessonUnitLearnVo)</div><div class="line">            eachRes.raise_for_status()</div><div class="line">            pdfUrl = re.search(re_pdfUrl, eachRes.text)</div><div class="line">            pdf = requests.get(pdfUrl.group(<span class="number">0</span>))</div><div class="line">            print(<span class="string">'正在下载第&#123;&#125;份 - &#123;&#125; ...\n'</span>.format(count, name))</div><div class="line">            <span class="keyword">with</span> open(saveDir+<span class="string">'/'</span>+name+<span class="string">'.pdf'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> file:</div><div class="line">                file.write(pdf.content)</div><div class="line">        <span class="keyword">except</span>:</div><div class="line">            print(<span class="string">'哎呀，这步出了点问题\n'</span>)</div><div class="line">            <span class="keyword">continue</span></div><div class="line">        count = count + <span class="number">1</span></div><div class="line">    print(<span class="string">'共下载&#123;&#125;个文件\n'</span>.format(count<span class="number">-1</span>))</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    infoList = getMocTermDto()</div><div class="line">    <span class="keyword">if</span> infoList == <span class="number">-1</span>:</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span></div><div class="line">    confirm = input(<span class="string">'当前共有&#123;&#125;份pdf文档，确认全部下载？(Y/N)\n'</span>.format(len(infoList)))</div><div class="line">    <span class="keyword">if</span> confirm == <span class="string">'Y'</span> <span class="keyword">or</span> confirm == <span class="string">'y'</span>:</div><div class="line">        getLessonUnitLearnVo(infoList)</div><div class="line">        print(<span class="string">'下载完成\n'</span>)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        print(<span class="string">'你取消了下载\n'</span>)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    main()</div></pre></td></tr></table></figure></p>
+<hr>
+<p>目前还存在一些BUG，比如同名文档以及无文档的处理，以及一些尚未发现的，有点懒，就先不改了hhh。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/教程/" rel="tag"># 教程</a>
+          
+            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+          
+            <a href="/tags/MOOC/" rel="tag"># MOOC</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/20170312-deploy-lnmp/" rel="next" title="在腾讯云Centos环境下配置lnmp环境">
+                <i class="fa fa-chevron-left"></i> 在腾讯云Centos环境下配置lnmp环境
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/20170419-googleTranslate/" rel="prev" title="Python调用Google翻译">
+                Python调用Google翻译 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="blog/20170323-getMOOCpdf/"
+           data-title="制作一个爬取中国大学MOOC课件的爬虫" data-url="http://www.adamyt.com/blog/20170323-getMOOCpdf/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/Adam.jpg"
+               alt="Adam" />
+          <p class="site-author-name" itemprop="name">Adam</p>
+           
+              <p class="site-description motion-element" itemprop="description">在等一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Dayunxi" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/dayunxi" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情破颜
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://silencezjl.coding.me" title="Silencezjl" target="_blank">Silencezjl</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.visonew.org" title="Visonew" target="_blank">Visonew</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://me.adamyt.com" title="Adam" target="_blank">Adam</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计"><span class="nav-number">3.</span> <span class="nav-text">设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现过程"><span class="nav-number">4.</span> <span class="nav-text">实现过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分析POST请求"><span class="nav-number">4.1.</span> <span class="nav-text">分析POST请求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#POST请求结构"><span class="nav-number">4.1.1.</span> <span class="nav-text">POST请求结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拓展"><span class="nav-number">4.3.</span> <span class="nav-text">拓展</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编写程序"><span class="nav-number">5.</span> <span class="nav-text">编写程序</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Adam</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"adamyt"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("5xiNMRsWFBX24RUpTRTQNa3h-gzGzoHsz", "qYA6t0i7KCaAWt5uq4bCSYac");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+  
+
+</body>
+</html>

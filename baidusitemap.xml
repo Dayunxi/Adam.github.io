@@ -3,24 +3,55 @@
 
 
     
-    
-    
   <url>
-    <loc>http://www.adamyt.com/blog/20170311-hello-world/</loc>
-    <lastmod>2017-03-12T05:13:36.000Z</lastmod>
+    <loc>http://www.adamyt.com/blog/20170419-googleTranslate/</loc>
+    <lastmod>2017-04-19T14:05:44.000Z</lastmod>
     <data>
         <display>
-        <title>Hello World</title>
-        <pubTime>2017-03-11T09:43:21.000Z</pubTime>
+        <title>Python调用Google翻译</title>
+        <pubTime>2017-04-18T16:00:00.000Z</pubTime>
         
-        <tag>Hexo</tag>
+        <tag>教程</tag>
+         
+        <tag>Python</tag>
          
          
            
+             
+              <breadCrumb title="技术" url="http://www.adamyt.com/categories/%E6%8A%80%E6%9C%AF/"/>
+          
         </display>
     </data>
     </url>
 
+    
+  <url>
+    <loc>http://www.adamyt.com/blog/20170323-getMOOCpdf/</loc>
+    <lastmod>2017-04-13T05:50:54.000Z</lastmod>
+    <data>
+        <display>
+        <title>制作一个爬取中国大学MOOC课件的爬虫</title>
+        <pubTime>2017-03-23T12:06:04.000Z</pubTime>
+        
+        <tag>教程</tag>
+         
+        <tag>爬虫</tag>
+         
+        <tag>MOOC</tag>
+         
+         
+           
+             
+              <breadCrumb title="技术" url="http://www.adamyt.com/categories/%E6%8A%80%E6%9C%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+    
     
   <url>
     <loc>http://www.adamyt.com/blog/20170312-deploy-lnmp/</loc>
@@ -45,31 +76,6 @@
     </data>
     </url>
 
-    
-  <url>
-    <loc>http://www.adamyt.com/blog/20170311-wanshenji/</loc>
-    <lastmod>2017-03-12T05:12:01.000Z</lastmod>
-    <data>
-        <display>
-        <title>最近被万神纪洗脑了</title>
-        <pubTime>2017-03-11T14:50:44.000Z</pubTime>
-        
-        <tag>音乐</tag>
-         
-        <tag>视频</tag>
-         
-        <tag>Bilibili</tag>
-         
-         
-           
-             
-              <breadCrumb title="随笔" url="http://www.adamyt.com/categories/%E9%9A%8F%E7%AC%94/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
     
     
 </urlset>
